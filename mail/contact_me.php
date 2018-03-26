@@ -1,4 +1,5 @@
 <?php
+require '../PHPMailer_5.2.0/class.phpmailer.php';
 // Check for empty fields
 if(empty($_POST['name'])  		||
    empty($_POST['email']) 		||
@@ -8,17 +9,32 @@ if(empty($_POST['name'])  		||
 	echo "No arguments Provided!";
 	return false;
    }
-	
+
 $name = $_POST['name'];
 $email_address = $_POST['email'];
 $message = $_POST['message'];
 	
-// Create the email and send the message
-$to = 'manivasakamr@gmail.com'; // Add your email address inbetween the '' replacing yourname@yourdomain.com - This is where the form will send a message to.
-$email_subject = "Portfolio Contact Form:  $name";
-$email_body = "You have received a new message from your portfolio contact form.\n\n"."Here are the details:\n\nName: $name\n\nEmail: $email_address\n\nMessage:\n$message";
-$headers = "From: manivasakamr@gmail.com\n"; // This is the email address the generated message will be from. We recommend using something like noreply@yourdomain.com.
-$headers .= "Reply-To: $email_address";	
-mail($to,$email_subject,$email_body,$headers);
+$email = 'manivasakamr@gmail.com';
+$password = '77871809@SnowWhite';
+
+$mail = new PHPMailer;
+$mail->isSMTP();
+$mail->Host = 'smtp.gmail.com';
+$mail->Port = 587;
+$mail->SMTPSecure = 'tls';
+$mail->SMTPAuth = true;
+$mail->Username = $email;
+$mail->Password = $password;
+
+$mail->addAddress($email);
+$mail->Subject =$name.": ".$email_address;
+$mail->msgHTML("Message from Portfolio: ".$message);
+if (!$mail->send()) {
+$error = "Mailer Error: " . $mail->ErrorInfo;
+echo '<p id="para">'.$error.'</p>';
+}
+else {
+echo '<p id="para">Message sent!</p>';
+}
 return true;			
 ?>
