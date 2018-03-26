@@ -496,4 +496,6 @@ color: white;
 	clear: both;
 	margin: 0 35%;
 	}
-	
+	#downloadLink,#link1{
+		margin-top: 5px;
+	}
